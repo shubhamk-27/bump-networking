@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "412907293114",
+    "project_id": "sample-7be24",
+    "storage_bucket": "sample-7be24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412907293114:android:1bb96db4ea81a8e4c67583",
+        "android_client_info": {
+          "package_name": "com.bump.nfc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412907293114-l3oi1e01eg93r9ngj2u94ee0n10dml11.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bump.nfc",
+            "certificate_hash": "6bf6a984544c65a5e19ca5d019e0b3165352ed11"
+          }
+        },
+        {
+          "client_id": "412907293114-vjeme2gfvsr55b0u22m9o7qohno057dj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bump.nfc",
+            "certificate_hash": "faf4afa5521e9608487c4da1be8587716e91eead"
+          }
+        },
+        {
+          "client_id": "412907293114-1utcic8dehsmsr0kadritmeoajpmar48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCwpM_U_aT_3sj5_tjzlHr8hVpYLxCJtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412907293114-1utcic8dehsmsr0kadritmeoajpmar48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "412907293114-dn9t9clbofab9lo8d73g3pu60q3m26hv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "in.bumpme"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
