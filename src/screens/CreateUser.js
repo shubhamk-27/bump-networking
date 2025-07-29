@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,21 +9,28 @@ import {
   Alert,
   ActivityIndicator,
   TouchableWithoutFeedback,
-  Keyboard
-
+  Keyboard,
 } from 'react-native';
 import AuthHeader from '../components/AuthHeader';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-const CreateUser = ({ navigation }) => {
+const CreateUser = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [isAvailable, setIsAvailable] = useState(false);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [docId, setDocId] = useState('')
+  const [docId, setDocId] = useState('');
   const [userNameError, setUserNameError] = useState(false);
-  const prohibitedUsernames = ['about', 'admin', 'products', 'privacy', 'termsandconditionsm', 'custom', 'terms']
+  const prohibitedUsernames = [
+    'about',
+    'admin',
+    'products',
+    'privacy',
+    'termsandconditionsm',
+    'custom',
+    'terms',
+  ];
 
   const CreateUsername = async () => {
     // add username to userdata
@@ -33,7 +40,7 @@ const CreateUser = ({ navigation }) => {
       .doc(docId)
       .update({
         username: username.toLowerCase(),
-        socialMedia: []
+        socialMedia: [],
       })
       .then(() => {
         console.log('User added!');
@@ -42,50 +49,48 @@ const CreateUser = ({ navigation }) => {
   };
 
   const dataEntryCodeChecker = async () => {
-    let isExist
+    let isExist;
     await firestore()
       .collection('dataEntry')
       // Filter results
       .where('code', '==', username.toLowerCase())
       .get()
-      .then((querySnapshot) => {
+      .then(querySnapshot => {
         if (querySnapshot.size > 0) {
-          isExist = true
-
+          isExist = true;
         } else {
-
           isExist = false;
         }
-      })
+      });
     if (isExist) return true;
-    return false
-  }
+    return false;
+  };
 
   // to check whether username available or not
   const usernameChecker = async () => {
-  if(username.includes(" ")||username.includes(".") || username.includes(",")|| username.includes(";") || username.includes(":")){
-  
-return  setUserNameError(true)
-  }
-  setUserNameError(false)
+    if (
+      username.includes(' ') ||
+      username.includes('.') ||
+      username.includes(',') ||
+      username.includes(';') ||
+      username.includes(':')
+    ) {
+      return setUserNameError(true);
+    }
+    setUserNameError(false);
     await firestore()
       .collection('Users')
       // Filter results
       .where('username', '==', username.toLowerCase())
       .get()
-      .then(async (querySnapshot) => {
+      .then(async querySnapshot => {
         if (querySnapshot.size > 0) {
           setIsAvailable(false);
-
-        }
-        else if (prohibitedUsernames.includes(username)) {
-          setIsAvailable(false)
-
-        }
-        else if (await dataEntryCodeChecker()) {
+        } else if (prohibitedUsernames.includes(username)) {
           setIsAvailable(false);
-        }
-        else {
+        } else if (await dataEntryCodeChecker()) {
+          setIsAvailable(false);
+        } else {
           setIsAvailable(true);
         }
       });
@@ -93,7 +98,7 @@ return  setUserNameError(true)
 
   // to retrieve user email.
   useEffect(() => {
-    const { email } = auth().currentUser;
+    const {email} = auth().currentUser;
     setEmail(email);
     firestore()
       .collection('Users')
@@ -103,12 +108,8 @@ return  setUserNameError(true)
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           setDocId(doc.id);
-
-
         });
-
       });
-
   }, []);
 
   // to check whether the entered username exits.
@@ -120,8 +121,8 @@ return  setUserNameError(true)
 
   const onClickHandler = () => {
     usernameChecker().then(() => {
-      if(userNameError){
-        return 
+      if (userNameError) {
+        return;
       }
       if (isAvailable) {
         Alert.alert(
@@ -133,7 +134,7 @@ return  setUserNameError(true)
               onPress: () => console.log('Cancel Pressed'),
               style: 'cancel',
             },
-            { text: 'Proceed', onPress: () => CreateUsername() },
+            {text: 'Proceed', onPress: () => CreateUsername()},
           ],
         );
       } else {
@@ -144,7 +145,13 @@ return  setUserNameError(true)
 
   if (loading) {
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
         <ActivityIndicator size="large" color="#4784E1" />
       </View>
     );
@@ -152,37 +159,36 @@ return  setUserNameError(true)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-
       <View style={styles.container}>
         <AuthHeader title1="Create Username" backBtn={'logout'} noBackBtn />
         <View style={styles.textContainer}>
-          <Text style={{ fontSize: 18, marginTop: 0 }}>
+          <Text style={{fontSize: 18, marginTop: 0}}>
             Please choose a unique
           </Text>
-          <Text style={{ fontSize: 18 }}>username for yourself.</Text>
+          <Text style={{fontSize: 18}}>username for yourself.</Text>
         </View>
 
         <View style={styles.inputContainer}>
           <View
             style={[
               styles.inputWrapper,
-              username && { borderBottomColor: '#383838' },
+              username && {borderBottomColor: '#383838'},
             ]}>
             <TextInput
               placeholder="Username"
               onChangeText={text => setUsername(text)}
               value={username}
               placeholderTextColor="gray"
-              style={{ color: 'black' }}
+              style={{color: 'black'}}
             />
           </View>
 
           <View style={styles.urlContainer}>
             {/* {username ? <Text style={{ fontSize: 20 }} >Custom Url</Text> : null} */}
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ color: 'black' }}>{'bumpme.in/ '}</Text>
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: 'black'}}>{'bumpme.in/ '}</Text>
                 <Text
                   style={{
                     color: 'black',
@@ -196,15 +202,19 @@ return  setUserNameError(true)
               <View
                 style={[
                   styles.WarningDot,
-                  { backgroundColor: isAvailable ? '#C5FDAA' : '#FF5252' },
+                  {backgroundColor: isAvailable ? '#C5FDAA' : '#FF5252'},
                 ]}>
-                <Text style={{ fontSize: 10, color: 'white' }}>
-                  {(isAvailable ||!userNameError) ? '✔' : '!'}
+                <Text style={{fontSize: 10, color: 'white'}}>
+                  {isAvailable || !userNameError ? '✔' : '!'}
                 </Text>
               </View>
             </View>
           </View>
-          {userNameError && <Text style={styles.errorMsg} >Only alphabets, numbers, and underscore is allowed.</Text>}
+          {userNameError && (
+            <Text style={styles.errorMsg}>
+              Only alphabets, numbers, and underscore is allowed.
+            </Text>
+          )}
         </View>
 
         <TouchableOpacity
@@ -218,7 +228,7 @@ return  setUserNameError(true)
           ]}
           onPress={() => onClickHandler()}
           disabled={!isAvailable}>
-          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17 }}>
+          <Text style={{color: 'white', fontWeight: '500', fontSize: 17}}>
             Create Username
           </Text>
         </TouchableOpacity>
@@ -232,19 +242,16 @@ export default CreateUser;
 const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
-
   },
   textContainer: {
     marginVertical: 0,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   inputContainer: {
     marginTop: 38,
     paddingHorizontal: 15,
     height: '33%',
-
   },
   inputWrapper: {
     borderBottomWidth: 2,
@@ -279,9 +286,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  errorMsg:{
-color:'red',
-marginTop:10,
-fontSize:15
-  }
+  errorMsg: {
+    color: 'red',
+    marginTop: 10,
+    fontSize: 15,
+  },
 });

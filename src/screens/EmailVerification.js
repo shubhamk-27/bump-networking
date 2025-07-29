@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,23 +12,19 @@ import OtpInputs from 'react-native-otp-inputs';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
-import { sendEmail } from '../OtpSender'
+import {sendEmail} from '../OtpSender';
 
 import AuthHeader from '../components/AuthHeader';
 import axios from 'axios';
 
-const EmailVerification = ({ navigation, route }) => {
-
-  const { email, password } = route.params;
+const EmailVerification = ({navigation, route}) => {
+  const {email, password} = route.params;
 
   const [code, setCode] = useState('');
-  const [otp, setotp] = useState()
-  const [loading, setLoading] = useState(false)
+  const [otp, setotp] = useState();
+  const [loading, setLoading] = useState(false);
 
   const registerEmail = async () => {
-
-
-
     setLoading(true);
     await auth()
       .createUserWithEmailAndPassword(email, password)
@@ -36,94 +32,75 @@ const EmailVerification = ({ navigation, route }) => {
         console.log('User account created & signed in!');
       })
       .catch(error => {
-
-
-
         console.error(error);
       });
-
   };
 
-
   const verificationHandler = async () => {
-
     if (otp == code) {
-      await registerEmail()
+      await registerEmail();
       await firestore()
         .collection('Users')
         .add({
           email,
-          verified: true
+          verified: true,
         })
         .then(() => {
           console.log('code correct');
-          setLoading(false)
+          setLoading(false);
         });
     } else {
-      Alert.alert(
-        'Incorrect OTP',
-        'Please try again',
-        [
-          {
-            text: 'Ok',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-
-        ],
-      );
-    }
-  };
-  useEffect(() => {
-    sendMail()
-
-  }, [])
-
-  const emailSendAlert = () => {
-    Alert.alert(
-      'Email Verification',
-      'Verification Code sent to your email.',
-      [
+      Alert.alert('Incorrect OTP', 'Please try again', [
         {
           text: 'Ok',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
+      ]);
+    }
+  };
+  useEffect(() => {
+    sendMail();
+  }, []);
 
-      ],
-    );
-  }
+  const emailSendAlert = () => {
+    Alert.alert('Email Verification', 'Verification Code sent to your email.', [
+      {
+        text: 'Ok',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+    ]);
+  };
 
   const sendMail = async () => {
- 
-
-    console.log(email)
+    console.log(email);
     // sendEmail(otp, email)
     try {
-      const response = await axios.post(`https://bumpme-node.herokuapp.com/sendOtp`, {
-        email,
-      });
+      const response = await axios.post(
+        `https://bumpme-node.herokuapp.com/sendOtp`,
+        {
+          email,
+        },
+      );
       if (response.status === 201) {
         // console.log(response.data)
-        setotp(response.data)
+        setotp(response.data);
 
-        emailSendAlert()
+        emailSendAlert();
         setLoading(false);
-
       } else {
-        throw new Error("An error has occurred");
+        throw new Error('An error has occurred');
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
-
+  };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-
         <View
           style={{
             marginLeft: -26,
@@ -132,10 +109,10 @@ const EmailVerification = ({ navigation, route }) => {
         </View>
 
         <View style={styles.textContainer}>
-          <Text style={{ fontSize: 18, marginTop: 10 }}>
+          <Text style={{fontSize: 18, marginTop: 10}}>
             Enter verification code sent
           </Text>
-          <Text style={{ fontSize: 18 }}>to your email ID</Text>
+          <Text style={{fontSize: 18}}>to your email ID</Text>
         </View>
         <View style={styles.InputContainer}>
           <View
@@ -151,24 +128,31 @@ const EmailVerification = ({ navigation, route }) => {
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: 0
+                padding: 0,
               }}
             />
           </View>
         </View>
 
         <Text
-          onPress={() => { sendMail() }}
+          onPress={() => {
+            sendMail();
+          }}
           style={{
             textDecorationLine: 'underline',
             fontSize: 12,
-            marginTop: 40
+            marginTop: 40,
           }}>
           Resend Verification Email
         </Text>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={[styles.btn, code.length == 6 && { backgroundColor: '#4784E1' }]} onPress={() => verificationHandler()}>
-            <Text style={{ color: 'white', fontSize: 17 }}>Continue</Text>
+          <TouchableOpacity
+            style={[
+              styles.btn,
+              code.length == 6 && {backgroundColor: '#4784E1'},
+            ]}
+            onPress={() => verificationHandler()}>
+            <Text style={{color: 'white', fontSize: 17}}>Continue</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -181,14 +165,12 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
     paddingHorizontal: 30,
-    flex: 1
-
+    flex: 1,
   },
   textContainer: {
     marginBottom: 40,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   InputContainer: {
     flexDirection: 'row',
@@ -204,7 +186,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   btnContainer: {
     flexDirection: 'row',

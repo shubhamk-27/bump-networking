@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -30,13 +30,13 @@ import accountIcon from '../assets/images/account.png';
 import XIco from '../assets/images/x.png';
 import DeleteIco from '../assets/images/delete.png';
 
-import { useIsFocused } from '@react-navigation/core';
-import { useUserContext } from '../context/userContext';
+import {useIsFocused} from '@react-navigation/core';
+import {useUserContext} from '../context/userContext';
 
-const SetupProfile = ({ navigation, route }) => {
+const SetupProfile = ({navigation, route}) => {
   const fromSettings = route.params?.fromSettings;
   const isFocussed = useIsFocused();
-  const { getUserDetails } = useUserContext();
+  const {getUserDetails} = useUserContext();
 
   const [publicUsername, setPublicUsername] = useState('');
   const [editable, setEditable] = useState(false);
@@ -55,34 +55,33 @@ const SetupProfile = ({ navigation, route }) => {
   const [socialMedia, setSocialMedia] = useState([]);
 
   const socialMediaComps = [
-    { title: 'Instagram', icon: Icon, key: 'one' },
-    { title: 'Facebook', icon: Icon, key: 'two' },
-    { title: 'Whatsapp', icon: Icon, key: 'three' },
-    { title: 'Youtube', icon: Icon, key: 'four' },
-    { title: 'SnapChat', icon: Icon, key: 'five' },
-    { title: 'Twitter', icon: Icon, key: 'six' },
-    { title: 'Linkedin', icon: Icon, key: 'seven' },
-    { title: 'Pinterest', icon: Icon, key: 'eight' },
-    { title: 'Spotify', icon: Icon, key: 'fifteen' },
-    { title: 'Moj', icon: Icon, key: 'Sixteen' },
-    { title: 'Quora', icon: Icon, key: 'Seventeen' },
-    { title: 'MX TakaTak', icon: Icon, key: 'Eighteen' },
-    { title: 'Roposo', icon: Icon, key: 'Nineteen' },
-    { title: 'Josh', icon: Icon, key: 'Twenty' },
-    { title: 'ClubHouse', icon: Icon, key: 'Twentyone' },
+    {title: 'Instagram', icon: Icon, key: 'one'},
+    {title: 'Facebook', icon: Icon, key: 'two'},
+    {title: 'Whatsapp', icon: Icon, key: 'three'},
+    {title: 'Youtube', icon: Icon, key: 'four'},
+    {title: 'SnapChat', icon: Icon, key: 'five'},
+    {title: 'Twitter', icon: Icon, key: 'six'},
+    {title: 'Linkedin', icon: Icon, key: 'seven'},
+    {title: 'Pinterest', icon: Icon, key: 'eight'},
+    {title: 'Spotify', icon: Icon, key: 'fifteen'},
+    {title: 'Moj', icon: Icon, key: 'Sixteen'},
+    {title: 'Quora', icon: Icon, key: 'Seventeen'},
+    {title: 'MX TakaTak', icon: Icon, key: 'Eighteen'},
+    {title: 'Roposo', icon: Icon, key: 'Nineteen'},
+    {title: 'Josh', icon: Icon, key: 'Twenty'},
+    {title: 'ClubHouse', icon: Icon, key: 'Twentyone'},
   ];
 
   const contactDetails = [
-    { title: 'Call', icon: Icon, key: 'nine' },
-    { title: 'Contact', icon: Icon, key: 'ten' },
-    { title: 'Text', icon: Icon, key: 'eleven' },
-    { title: 'Email', icon: Icon, key: 'twelve' },
-    { title: 'Google Maps', icon: Icon, key: 'thirteen' },
-    { title: 'Custom Url', icon: Icon, key: 'fourteen' },
+    {title: 'Call', icon: Icon, key: 'nine'},
+    {title: 'Contact', icon: Icon, key: 'ten'},
+    {title: 'Text', icon: Icon, key: 'eleven'},
+    {title: 'Email', icon: Icon, key: 'twelve'},
+    {title: 'Google Maps', icon: Icon, key: 'thirteen'},
+    {title: 'Custom Url', icon: Icon, key: 'fourteen'},
   ];
 
   const imagePicker = type => {
-
     if (type == 'gallery') {
       ImagePicker.clean().catch(e => {
         console.log(e);
@@ -93,15 +92,15 @@ const SetupProfile = ({ navigation, route }) => {
         cropping: true,
       }).then(image => {
         setModalVisible(false);
-        setProfileImage({ uri: image.path });
-      
+        setProfileImage({uri: image.path});
+
         profPicUpload(image.path).then(async () => {
           await firestore()
             .collection('Users')
             .doc(docId)
             .update({
               profImgExtension: image.path
-                ?image.path.substr(image.path.lastIndexOf('.') + 1)
+                ? image.path.substr(image.path.lastIndexOf('.') + 1)
                 : profImgExtension,
             })
             .then(() => {
@@ -124,7 +123,7 @@ const SetupProfile = ({ navigation, route }) => {
         cropping: true,
       }).then(image => {
         setModalVisible(false);
-        setProfileImage({ uri: image.path });
+        setProfileImage({uri: image.path});
         profPicUpload(image.path).then(async () => {
           await firestore()
             .collection('Users')
@@ -195,9 +194,9 @@ const SetupProfile = ({ navigation, route }) => {
       .then(() => {
         console.log('User updated!');
         if (fromSettings) {
-          navigation.navigate('BottomNav', { screen: 'Home' });
+          navigation.navigate('BottomNav', {screen: 'Home'});
         } else {
-          navigation.navigate('SetupBump', { from: 'setupProfile' });
+          navigation.navigate('SetupBump', {from: 'setupProfile'});
         }
       })
       .catch(error => {
@@ -231,13 +230,13 @@ const SetupProfile = ({ navigation, route }) => {
       .collection('Users')
       // Filter results
       .onSnapshot(snapshot =>
-        setInfo(snapshot?.docs.map(doc => ({ id: doc.id, info: doc.data() }))),
+        setInfo(snapshot?.docs.map(doc => ({id: doc.id, info: doc.data()}))),
       );
   }, []);
   // To get username
   useEffect(() => {
     setLoading(true);
-    let { email } = auth().currentUser;
+    let {email} = auth().currentUser;
     console.log(email);
     firestore()
       .collection('Users')
@@ -312,24 +311,24 @@ const SetupProfile = ({ navigation, route }) => {
                 profileImage ? (
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate('ShowPic', { profileImage })
+                      navigation.navigate('ShowPic', {profileImage})
                     }>
                     <Image
                       source={profileImage}
                       style={
                         ([styles.profileImage],
-                          { height: 90, width: 90, borderRadius: 100 })
+                        {height: 90, width: 90, borderRadius: 100})
                       }
                     />
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('ShowPic', { imageUrl })}>
+                    onPress={() => navigation.navigate('ShowPic', {imageUrl})}>
                     <Image
-                      source={{ uri: imageUrl }}
+                      source={{uri: imageUrl}}
                       style={
                         ([styles.profileImage],
-                          { height: 100, width: 100, borderRadius: 100 })
+                        {height: 100, width: 100, borderRadius: 100})
                       }
                     />
                   </TouchableOpacity>
@@ -338,21 +337,21 @@ const SetupProfile = ({ navigation, route }) => {
                 <Image source={accountIcon} style={styles.profileImage} />
               )}
             </View>
-            <View style={{ height: '80%', marginLeft: -30 }}>
+            <View style={{height: '80%', marginLeft: -30}}>
               <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Image source={editPen} style={{ width: 50, height: 50 }} />
+                <Image source={editPen} style={{width: 50, height: 50}} />
               </TouchableOpacity>
             </View>
           </View>
           <View style={styles.detailsContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ fontSize: 15 }}>Public Username</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontSize: 15}}>Public Username</Text>
 
               <TouchableOpacity
                 onPress={() => {
                   setEditable(!editable);
                 }}>
-                <Image source={editPen} style={{ width: 30, height: 30 }} />
+                <Image source={editPen} style={{width: 30, height: 30}} />
               </TouchableOpacity>
             </View>
 
@@ -375,7 +374,7 @@ const SetupProfile = ({ navigation, route }) => {
                 selectTextOnFocus={true}
               />
             ) : (
-              <Text style={(styles.publicUsername, { color: '#383838' })}>
+              <Text style={(styles.publicUsername, {color: '#383838'})}>
                 {publicUsername}
               </Text>
             )}
@@ -400,12 +399,12 @@ const SetupProfile = ({ navigation, route }) => {
                 placeholderTextColor="gray"
               />
             ) : (
-              <Text style={(styles.publicUsername, { color: '#383838' })}>
+              <Text style={(styles.publicUsername, {color: '#383838'})}>
                 {designation == '' ? 'No Designation' : designation}
               </Text>
             )}
-            <View style={{ marginTop: 5 }}>
-              <Text style={{ color: 'gray' }}>{`bumpme.in/${username}`}</Text>
+            <View style={{marginTop: 5}}>
+              <Text style={{color: 'gray'}}>{`bumpme.in/${username}`}</Text>
             </View>
           </View>
           {/* <View >
@@ -479,38 +478,37 @@ const SetupProfile = ({ navigation, route }) => {
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
               style={styles.crossBtn}>
-              <Image source={XIco} style={{ height: 15, width: 15 }} />
+              <Image source={XIco} style={{height: 15, width: 15}} />
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', marginTop: 7 }}>
+            <View style={{flexDirection: 'row', marginTop: 7}}>
               <TouchableOpacity
                 style={styles.modalBtn}
                 onPress={() => requestCameraPermission('gallery')}>
                 <Image
                   source={gallery}
-                  style={{ height: 45, width: 45 }}
+                  style={{height: 45, width: 45}}
                   tintColor={'#4784E1'}
                 />
-                <Text style={{ fontSize: 12 }}>Gallery</Text>
+                <Text style={{fontSize: 12}}>Gallery</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalBtn}
                 onPress={() => requestCameraPermission('camera')}>
                 <Image
                   source={camera}
-                  style={{ height: 45, width: 45 }}
+                  style={{height: 45, width: 45}}
                   tintColor={'#4784E1'}
                 />
-                <Text style={{ fontSize: 12 }}>Camera</Text>
+                <Text style={{fontSize: 12}}>Camera</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalBtn}
                 onPress={() => deleteProfPic()}>
                 <Image
                   source={DeleteIco}
-                  style={{ height: 45, width: 45, tintColor: 'red' }}
-
+                  style={{height: 45, width: 45, tintColor: 'red'}}
                 />
-                <Text style={{ fontSize: 12 }}>Delete</Text>
+                <Text style={{fontSize: 12}}>Delete</Text>
               </TouchableOpacity>
             </View>
           </View>

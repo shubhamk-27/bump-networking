@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useEffect, useState} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ActivityIndicator, Image, StatusBar, View, Platform } from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  ActivityIndicator,
+  Image,
+  StatusBar,
+  View,
+  Platform,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import Home from '../screens/Home';
@@ -20,7 +26,7 @@ import contact from '../assets/images/contacts.png';
 import scannerIcon from '../assets/images/scanner.png';
 import AddPeople from '../screens/AddPeople';
 import SplashScreen from '../screens/SplashScreen';
-import { useUserContext } from '../context/userContext';
+import {useUserContext} from '../context/userContext';
 import About from '../screens/About';
 import ShowPic from '../screens/ShowPic';
 
@@ -31,21 +37,18 @@ const AppNav = () => {
   const [initialRoute, setInitialRoute] = useState('');
   const [initialising, setInitialising] = useState(true);
 
-
-  const { getUserDetails } = useUserContext()
+  const {getUserDetails} = useUserContext();
 
   // To handle which screen to be shown if username not exist it will show from username create screen and so on.
   useEffect(() => {
     initialRouteHandler();
     getUserDetails();
-
   }, []);
 
   const initialRouteHandler = async () => {
-
     let user = auth().currentUser;
 
-console.log(auth().currentUser)
+    console.log(auth().currentUser);
 
     // if (!user.emailVerified) {
     //   setInitialRoute('EmailVerification');
@@ -59,27 +62,24 @@ console.log(auth().currentUser)
         // Filter results
         .where('email', '==', user.email)
         .get()
-        .then(async (querySnapshot) => {
-
+        .then(async querySnapshot => {
           if (querySnapshot.empty) {
-
             await firestore()
               .collection('Users')
               .add({
                 email: user.email,
-                verified: true
+                verified: true,
               })
               .then(() => {
                 console.log('code correct');
-                setInitialRoute('CreateUser')
-                setInitialising(false)
+                setInitialRoute('CreateUser');
+                setInitialising(false);
 
                 //   setLoading(false)
               });
           } else {
             querySnapshot.forEach(data => {
-
-              setInitialRoute('CreateUser')
+              setInitialRoute('CreateUser');
 
               if (data.data().username) {
                 setInitialRoute('SetupProfile');
@@ -91,49 +91,42 @@ console.log(auth().currentUser)
               }
 
               setInitialising(false);
-
-
-
             });
           }
 
-
-
           // setOpening(false)
         });
-
-    } catch (error) {
-
-    }
-
+    } catch (error) {}
   };
   if (initialising) {
-
     // return null
 
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
         <ActivityIndicator size="large" color="#4784E1" />
       </View>
       // <SplashScreen />
     );
-
-
-
-
   }
 
   return (
     <>
       <StatusBar
         animated={true}
-        backgroundColor='#DDE8F9'
+        backgroundColor="#DDE8F9"
         // barStyle={statusBarStyle}
         // showHideTransition={statusBarTransition}
         barStyle={'dark-content'}
-        hidden={false} />
+        hidden={false}
+      />
       <Stack.Navigator
-        screenOptions={{ headerShown: false }}
+        screenOptions={{headerShown: false}}
         initialRouteName={initialRoute}>
         {/* <Stack.Screen name="EmailVerification" component={EmailVerification} /> */}
         <Stack.Screen name="CreateUser" component={CreateUser} />
@@ -154,8 +147,8 @@ const BottomNav = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let iconName;
           let iconColor = focused ? '#4784E1' : '#383838';
 
@@ -172,8 +165,7 @@ const BottomNav = () => {
               source={iconName}
               size={size}
               color={color}
-              style={{ width: 20, height: 20, tintColor: iconColor }}
-
+              style={{width: 20, height: 20, tintColor: iconColor}}
             />
           );
         },

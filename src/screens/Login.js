@@ -17,17 +17,18 @@ import FacebookLogo from '../assets/images/facebook.png';
 import GoogleLogo from '../assets/images/google.png';
 import EmailLogo from '../assets/images/email.png';
 
-const Login = ({ navigation }) => {
+const Login = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <StatusBar
           animated={true}
-          backgroundColor='#DDE8F9'
+          backgroundColor="#DDE8F9"
           // barStyle={statusBarStyle}
           // showHideTransition={statusBarTransition}
           barStyle={'dark-content'}
-          hidden={false} />
+          hidden={false}
+        />
 
         <AuthHeader
           navigation={navigation}
@@ -39,7 +40,9 @@ const Login = ({ navigation }) => {
         />
 
         <View style={styles.btnContainer}>
-          {Platform.OS === 'ios' && < SocialBtn title={'Sign in with Apple'} icon={AppleLogo} />}
+          {Platform.OS === 'ios' && (
+            <SocialBtn title={'Sign in with Apple'} icon={AppleLogo} />
+          )}
           <SocialBtn title={'Facebook'} icon={FacebookLogo} />
           <SocialBtn title={'  Google'} icon={GoogleLogo} />
           <SocialBtn title={'   Email'} icon={EmailLogo} />
@@ -47,7 +50,7 @@ const Login = ({ navigation }) => {
         <View style={styles.textContainer}>
           <Text>Did you want to </Text>
           <Text
-            style={{ fontSize: 18, fontWeight: '700' }}
+            style={{fontSize: 18, fontWeight: '700'}}
             onPress={() => navigation.navigate('SignUp')}>
             {' '}
             Sign Up?

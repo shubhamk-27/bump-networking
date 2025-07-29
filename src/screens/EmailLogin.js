@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,16 +17,13 @@ import auth from '@react-native-firebase/auth';
 
 import Eye from '../assets/images/eye.png';
 
-const EmailLogin = ({ navigation }) => {
+const EmailLogin = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
   const [isOk, setIsOK] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [borderColor, setBorderColor] = useState('gray')
-
-
-
+  const [borderColor, setBorderColor] = useState('gray');
 
   const loginHandler = () => {
     if (email && password) {
@@ -68,46 +65,48 @@ const EmailLogin = ({ navigation }) => {
   }, [password, email]);
   if (loading) {
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
         <ActivityIndicator size="large" color="#4784E1" />
       </View>
     );
   }
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} >
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <StatusBar
           animated={true}
-          backgroundColor='#DDE8F9'
+          backgroundColor="#DDE8F9"
           // barStyle={statusBarStyle}
           // showHideTransition={statusBarTransition}
           barStyle={'dark-content'}
-          hidden={false} />
+          hidden={false}
+        />
         <AuthHeader title1="Log In with Email" />
         <View style={styles.inputContainer}>
-          <View
-            style={[
-              styles.inputWrapper,
-              { borderBottomColor: borderColor },
-
-            ]}>
+          <View style={[styles.inputWrapper, {borderBottomColor: borderColor}]}>
             <TextInput
               placeholder="Email"
               onChangeText={text => setEmail(text)}
               value={email}
               placeholderTextColor={'gray'}
-              style={{ color: 'black' }}
-              keyboardType='email-address'
+              style={{color: 'black'}}
+              keyboardType="email-address"
             />
           </View>
 
           <View
             style={[
-              { ...styles.inputWrapper, flexDirection: 'row' },
-              password && { borderBottomColor: '#383838' },
+              {...styles.inputWrapper, flexDirection: 'row'},
+              password && {borderBottomColor: '#383838'},
             ]}>
             <TextInput
-              style={{ width: '90%', color: 'black' }}
+              style={{width: '90%', color: 'black'}}
               placeholder="Password"
               onChangeText={text => setPassword(text)}
               value={password}
@@ -115,7 +114,11 @@ const EmailLogin = ({ navigation }) => {
               placeholderTextColor={'gray'}
             />
             <TouchableOpacity
-              style={{ width: 30, alignItems: 'center', justifyContent: 'center', }}
+              style={{
+                width: 30,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
               onPress={() => setShowPassword(!showPassword)}>
               <Image
                 source={Eye}
@@ -124,15 +127,15 @@ const EmailLogin = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Reset')} >
-            <Text style={{ marginTop: 10 }}>Forgot password?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
+            <Text style={{marginTop: 10}}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
 
         <TouchableOpacity
-          style={[styles.btn, isOk && { backgroundColor: '#4784E1' }]}
+          style={[styles.btn, isOk && {backgroundColor: '#4784E1'}]}
           onPress={() => loginHandler()}>
-          <Text style={{ color: 'white' }}>Log In</Text>
+          <Text style={{color: 'white'}}>Log In</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -168,6 +171,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#3838384D',
     marginHorizontal: 20,
     borderRadius: 50,
-    marginTop: 70
+    marginTop: 70,
   },
 });

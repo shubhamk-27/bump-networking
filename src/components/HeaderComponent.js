@@ -1,10 +1,16 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-
-const HeaderComponent = ({ title1, title2, backBtn, noBackBtn, deleteBtn ,skip }) => {
+const HeaderComponent = ({
+  title1,
+  title2,
+  backBtn,
+  noBackBtn,
+  deleteBtn,
+  skip,
+}) => {
   const navigation = useNavigation();
 
   const logout = () => {
@@ -33,25 +39,28 @@ const HeaderComponent = ({ title1, title2, backBtn, noBackBtn, deleteBtn ,skip }
             alignItems: 'center',
             marginLeft: 10,
           }}>
-          {!noBackBtn && <TouchableOpacity onPress={() => backBtnHandler()}>
-            <Image
-              style={styles.headerImg}
-              source={require('../assets/images/back.png')}
-            />
-          </TouchableOpacity>}
+          {!noBackBtn && (
+            <TouchableOpacity onPress={() => backBtnHandler()}>
+              <Image
+                style={styles.headerImg}
+                source={require('../assets/images/back.png')}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         <View>
           <Text style={styles.headerText}>{title1}</Text>
           {title2 && <Text style={styles.headerText}>{title2}</Text>}
         </View>
-        <View style={styles.deleteBtnWrpr} >
-          {deleteBtn && deleteBtn}
-        </View>
-      {skip&&  <Text
-         style={{ fontSize: 15,marginRight:10 }}
-         onPress={()=> navigation.navigate('BottomNav')}
-         >Skip</Text>}
+        <View style={styles.deleteBtnWrpr}>{deleteBtn && deleteBtn}</View>
+        {skip && (
+          <Text
+            style={{fontSize: 15, marginRight: 10}}
+            onPress={() => navigation.navigate('BottomNav')}>
+            Skip
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -77,7 +86,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     alignItems: 'flex-end',
-    justifyContent:'center',
+    justifyContent: 'center',
     paddingRight: 10,
-  }
+  },
 });

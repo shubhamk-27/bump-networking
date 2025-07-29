@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useEffect, useState} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import Welcome from '../screens/Welcome';
 import OnBoarding from '../screens/OnBoarding';
@@ -8,48 +8,50 @@ import EmailLogin from '../screens/EmailLogin';
 import EmailSignUP from '../screens/EmailSignup';
 import SignUp from '../screens/SignUp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator, StatusBar, View } from 'react-native';
+import {ActivityIndicator, StatusBar, View} from 'react-native';
 import SplashScreen from '../screens/SplashScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import EmailVerification from '../screens/EmailVerification';
 
 const Stack = createStackNavigator();
 
-
 const AuthNav = () => {
-
-  const [initalRoute, setInitialRoute] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [initalRoute, setInitialRoute] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(async () => {
     try {
-      const value = await AsyncStorage.getItem('isInitiated')
+      const value = await AsyncStorage.getItem('isInitiated');
       if (value !== null) {
-        setInitialRoute('Welcome')
+        setInitialRoute('Welcome');
       } else {
-        setInitialRoute('boarding')
+        setInitialRoute('boarding');
       }
-      setLoading(false)
+      setLoading(false);
     } catch (e) {
       // error reading value
-      console.log(e, 'error reading asyncStorage')
-      setLoading(false)
+      console.log(e, 'error reading asyncStorage');
+      setLoading(false);
     }
-  }, [])
+  }, []);
   if (loading) {
     return (
-
       // <SplashScreen/>
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
         <ActivityIndicator size="large" color="#4784E1" />
       </View>
     );
   }
   return (
-
-    <Stack.Navigator screenOptions={{ headerShown: false }}
-      initialRouteName={initalRoute}
-    >
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName={initalRoute}>
       <Stack.Screen name="boarding" component={OnBoarding} />
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Login" component={Login} />
@@ -59,7 +61,6 @@ const AuthNav = () => {
       <Stack.Screen name="Reset" component={ForgotPasswordScreen} />
       <Stack.Screen name="EmailVerification" component={EmailVerification} />
     </Stack.Navigator>
-
   );
 };
 

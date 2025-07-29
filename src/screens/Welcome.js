@@ -1,32 +1,37 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Linking, Image, StatusBar } from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+  Image,
+  StatusBar,
+} from 'react-native';
 
-import Logo from '../assets/images/bump_logo.png'
+import Logo from '../assets/images/bump_logo.png';
 
-const Welcome = ({ navigation }) => {
-
+const Welcome = ({navigation}) => {
   useEffect(async () => {
-
     try {
-      await AsyncStorage.setItem('isInitiated', 'initiated')
-
+      await AsyncStorage.setItem('isInitiated', 'initiated');
     } catch (e) {
       // saving error
-      console.log(e, 'error saving to async storage')
-
+      console.log(e, 'error saving to async storage');
     }
-  })
+  });
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar
         animated={true}
-        backgroundColor='white'
+        backgroundColor="white"
         // barStyle={statusBarStyle}
         // showHideTransition={statusBarTransition}
         barStyle={'dark-content'}
-        hidden={false} />
+        hidden={false}
+      />
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
           <Image source={Logo} style={styles.logo} />
@@ -37,13 +42,13 @@ const Welcome = ({ navigation }) => {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => navigation.navigate('SignUp')}>
-          <Text style={{ color: 'white' }}>Sign Up</Text>
+          <Text style={{color: 'white'}}>Sign Up</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: '#000000' }]}
+          style={[styles.btn, {backgroundColor: '#000000'}]}
           onPress={() => Linking.openURL('https://shop.bumpme.in')}>
-          <Text style={{ color: '#fff' }}>Buy Bump</Text>
+          <Text style={{color: '#fff'}}>Buy Bump</Text>
         </TouchableOpacity>
 
         <Text style={styles.text}>Already have an account?</Text>
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 175,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
   btnContaner: {
     flex: 0.1,

@@ -261,7 +261,7 @@ const Home = ({navigation}) => {
 
   // to update new order of btns to database
   const dragReleaseHandler = async data => {
-    setDisableScroll(false)
+    setDisableScroll(false);
     setSocialMediaData(data);
     console.log(data);
 

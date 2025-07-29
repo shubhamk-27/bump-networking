@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   View,
@@ -17,18 +16,18 @@ import FacebookLogo from '../assets/images/facebook.png';
 import GoogleLogo from '../assets/images/google.png';
 import EmailLogo from '../assets/images/email.png';
 
-const SignUp = ({ navigation }) => {
+const SignUp = ({navigation}) => {
   return (
     <SafeAreaView>
-
       <View style={styles.container}>
-      <StatusBar
+        <StatusBar
           animated={true}
-          backgroundColor='#DDE8F9'
+          backgroundColor="#DDE8F9"
           // barStyle={statusBarStyle}
           // showHideTransition={statusBarTransition}
           barStyle={'dark-content'}
-          hidden={false} />
+          hidden={false}
+        />
         <AuthHeader
           navigation={navigation}
           title1={'Sign Up'}
@@ -39,7 +38,9 @@ const SignUp = ({ navigation }) => {
         />
 
         <View style={styles.btnContainer}>
-          {Platform.OS === 'ios' && < SocialBtn title={'Apple'} icon={AppleLogo} />}
+          {Platform.OS === 'ios' && (
+            <SocialBtn title={'Apple'} icon={AppleLogo} />
+          )}
           <SocialBtn title={'Facebook'} icon={FacebookLogo} />
           <SocialBtn title={'Google'} icon={GoogleLogo} />
           <SocialBtn title={'Email'} icon={EmailLogo} signUp={true} />
@@ -47,7 +48,7 @@ const SignUp = ({ navigation }) => {
         <View style={styles.textContainer}>
           <Text>Did you want to </Text>
           <Text
-            style={{ fontSize: 18, fontWeight: '700' }}
+            style={{fontSize: 18, fontWeight: '700'}}
             onPress={() => navigation.navigate('Login')}>
             {' '}
             Login?
@@ -56,9 +57,9 @@ const SignUp = ({ navigation }) => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
-export default SignUp
+export default SignUp;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,7 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
-import { useIsFocused } from '@react-navigation/core';
+import {useIsFocused} from '@react-navigation/core';
 import {
   View,
   Text,
@@ -34,13 +34,12 @@ import Josho from '../assets/images/Josh.png';
 import Takatak from '../assets/images/MXTakatak.png';
 import Roposo from '../assets/images/Roposo.png';
 
-const ContactBtn = ({ item, docId, email, cat,alreadyPresent }) => {
-  const { width } = useWindowDimensions();
+const ContactBtn = ({item, docId, email, cat, alreadyPresent}) => {
+  const {width} = useWindowDimensions();
   const navigation = useNavigation();
   const focussed = useIsFocused();
 
   const [icon, setIcon] = useState(item.icon);
-
 
   const SocialMediaBtnClickHandler = () => {
     navigation.navigate('AddBtn', {
@@ -50,14 +49,8 @@ const ContactBtn = ({ item, docId, email, cat,alreadyPresent }) => {
       key: item.key,
       cat,
     });
-    // if (item.title == 'Email') {
-    //     Linking.openURL(`mailto:${email}`)
-    // } else {
-    //     navigation.navigate('AddBtn', { title: item.title, icon: item.icon, docId, key: item.key, cat })
-    // }
   };
 
-  // This is to set icon accordingly..
   useEffect(() => {
     switch (item.title) {
       case 'Instagram':
@@ -139,30 +132,25 @@ const ContactBtn = ({ item, docId, email, cat,alreadyPresent }) => {
         .get()
         .then(docSnapShot => {
           let SocialMedia = docSnapShot?.data()?.socialMedia;
-          let socialItem = []
+          let socialItem = [];
 
           if (SocialMedia) {
-            socialItem = SocialMedia.filter(
-              (item1) => item1.title == item.title,
-            );
+            socialItem = SocialMedia.filter(item1 => item1.title == item.title);
           }
-
-
-        
         });
     } catch (error) {
       console.log(error);
     }
   }, [focussed]);
   return (
-    <View style={{ width: width / 4, alignItems: 'center' }}>
+    <View style={{width: width / 4, alignItems: 'center'}}>
       <TouchableOpacity
-        style={{ width: 80, alignItems: 'center', marginTop: 10 }}
+        style={{width: 80, alignItems: 'center', marginTop: 10}}
         onPress={() => SocialMediaBtnClickHandler()}>
         <View
           style={[
             styles.iconWrapper,
-            { borderColor: alreadyPresent ? 'green' : 'white', borderWidth: 1 },
+            {borderColor: alreadyPresent ? 'green' : 'white', borderWidth: 1},
           ]}>
           <Image source={icon} style={styles.icon} resizeMode="contain" />
         </View>

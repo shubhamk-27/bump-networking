@@ -1,6 +1,0 @@
-dumb:
-    email: ans123@gmail.com
-    p: 12345678
-
-fb
-    fb@123

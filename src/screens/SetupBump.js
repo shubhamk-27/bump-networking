@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, } from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -8,23 +8,16 @@ import {
   Alert,
   Platform,
   ActivityIndicator,
-
 } from 'react-native';
-import NfcManager, {
-  NfcTech,
-  Ndef,
-} from 'react-native-nfc-manager';
+import NfcManager, {NfcTech, Ndef} from 'react-native-nfc-manager';
 import firestore from '@react-native-firebase/firestore';
 import HeaderComponent from '../components/HeaderComponent';
 import successImage from '../assets/images/congratulations.png';
 import readyImage from '../assets/images/ready_to_scan.png';
-import { useUserContext } from '../context/userContext';
+import {useUserContext} from '../context/userContext';
 
-
-const SetupBump = ({ navigation, route }) => {
-
-
-  const { userDetails } = useUserContext()
+const SetupBump = ({navigation, route}) => {
+  const {userDetails} = useUserContext();
 
   const [success, setSuccess] = useState(false);
   const [id, setId] = useState('');
@@ -34,7 +27,6 @@ const SetupBump = ({ navigation, route }) => {
     await NfcManager.start();
   }
 
-
   // check whether NFC on or not.
   useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -42,7 +34,6 @@ const SetupBump = ({ navigation, route }) => {
       readData();
     } else {
       NfcManager.isSupported().then(async supported => {
-
         if (supported) {
           NfcManager.isEnabled().then(enabled => {
             console.log(enabled);
@@ -54,7 +45,6 @@ const SetupBump = ({ navigation, route }) => {
                 'Turn on NFC',
                 'Your NFC is OFF, click Enable to turn on',
                 [
-
                   ...(route.params?.from == 'setupProfile' && {
                     text: 'Skip',
                     onPress: () => navigation.navigate('BottomNav'),
@@ -89,17 +79,14 @@ const SetupBump = ({ navigation, route }) => {
         }
       });
     }
-
-
-
-
   }, []);
 
-  const showAlert = (type) => {
+  const showAlert = type => {
     Alert.alert(
       'Error',
-      type == 'Verification' ? 'Specified tag is not Bump verified.' :
-        'Tag already taken by other user.',
+      type == 'Verification'
+        ? 'Specified tag is not Bump verified.'
+        : 'Tag already taken by other user.',
 
       [
         {
@@ -107,36 +94,29 @@ const SetupBump = ({ navigation, route }) => {
           onPress: () => readData(),
           style: 'cancel',
         },
-
       ],
     );
-  }
+  };
 
-  const updateDataHandler = async (tagId) => {
+  const updateDataHandler = async tagId => {
     let id;
     let docID;
     await firestore()
       .collection('dataEntry')
       .where('id', '==', tagId)
       .get()
-      .then(async (querySnapshot) => {
+      .then(async querySnapshot => {
         if (querySnapshot.empty) {
-          return showAlert('Verification')
-        }
-
-        else {
+          return showAlert('Verification');
+        } else {
           querySnapshot.forEach(doc => {
-
             if (doc.data().name) {
-              return showAlert('configured')
+              return showAlert('configured');
             } else {
-              id = doc._data.id
-              docID = doc.id
+              id = doc._data.id;
+              docID = doc.id;
             }
-
-
-          })
-
+          });
 
           // updating data to db
 
@@ -144,24 +124,22 @@ const SetupBump = ({ navigation, route }) => {
             .collection('dataEntry')
             .doc(docID)
             .update({
-              name: userDetails.username
-            }).then(() => {
-              setSuccess(true)
-              setTimeout(() => {
-                navigation.navigate('BottomNav', { screen: 'Home' });
-              }, 3000)
+              name: userDetails.username,
             })
+            .then(() => {
+              setSuccess(true);
+              setTimeout(() => {
+                navigation.navigate('BottomNav', {screen: 'Home'});
+              }, 3000);
+            });
         }
-
       });
-  }
-
+  };
 
   async function writeNdef() {
     let result = false;
 
     try {
-
       // Step 1
       await NfcManager.requestTechnology(NfcTech.Ndef, {
         alertMessage: 'Ready to write some NDEF',
@@ -190,13 +168,13 @@ const SetupBump = ({ navigation, route }) => {
     NfcManager.cancelTechnologyRequest().catch(() => 0);
     setSuccess(result);
     if (route.params?.from == 'setupProfile') {
-      setTimeout(() => { navigation.navigate('BottomNav') }, 3000);
+      setTimeout(() => {
+        navigation.navigate('BottomNav');
+      }, 3000);
     }
-
   }
 
   const readData = async () => {
-
     let tag = null;
 
     try {
@@ -209,26 +187,26 @@ const SetupBump = ({ navigation, route }) => {
       //   await NfcManager.setAlertMessageIOS('Success');
       // }
 
-
-      console.log('tagDetails', tag)
-
-
+      console.log('tagDetails', tag);
     } catch (ex) {
       // for tag reading, we don't actually need to show any error
       console.log(ex);
-      return
+      return;
     } finally {
       NfcManager.cancelTechnologyRequest();
-      updateDataHandler(tag.id)
+      updateDataHandler(tag.id);
     }
-
-
   };
-
 
   if (loading) {
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: 'white' }}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
         <ActivityIndicator size="large" color="#4784E1" />
       </View>
     );
@@ -236,7 +214,7 @@ const SetupBump = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderComponent title1={'Setup Bump'} skip  />
+      <HeaderComponent title1={'Setup Bump'} skip />
       {success ? (
         <>
           <Text style={styles.title}>Congratulations!</Text>
@@ -245,7 +223,6 @@ const SetupBump = ({ navigation, route }) => {
         </>
       ) : (
         <>
-       
           <Text style={styles.title}>Ready to Scan</Text>
           <Image source={readyImage} style={styles.icon} />
           <Text style={styles.text}>

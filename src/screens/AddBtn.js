@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -41,11 +41,11 @@ import Josho from '../assets/images/Josh.png';
 import Takatak from '../assets/images/MXTakatak.png';
 import Roposo from '../assets/images/Roposo.png';
 import DeleteIcon from '../assets/images/delete.png';
-import { useUserContext } from '../context/userContext';
+import {useUserContext} from '../context/userContext';
 
-const AddBtn = ({ route, navigation }) => {
-  const { title, docId, key, } = route.params;
-  const { userDetails, getUserDetails } = useUserContext();
+const AddBtn = ({route, navigation}) => {
+  const {title, docId, key} = route.params;
+  const {userDetails, getUserDetails} = useUserContext();
 
   const [link, setLink] = useState('');
   const [editable, setEditable] = useState(true);
@@ -103,12 +103,11 @@ const AddBtn = ({ route, navigation }) => {
           contactPhNo,
         };
       } else {
-        arrayPrevObj = { title, link: prevLink.toString(), key };
-        arrayObj = { title, link: link.toString(), key };
+        arrayPrevObj = {title, link: prevLink.toString(), key};
+        arrayObj = {title, link: link.toString(), key};
       }
-      console.log(userDetails)
+      console.log(userDetails);
       tempSocialMedia = userDetails.socialMedia ?? [];
-
 
       tempSocialMedia.map(item => {
         if (item.title == title) {
@@ -154,7 +153,7 @@ const AddBtn = ({ route, navigation }) => {
       getUserDetails();
     } else {
       Alert.alert('Email', 'Enter a valid email address', [
-        { text: 'OK', onPress: () => null },
+        {text: 'OK', onPress: () => null},
       ]);
     }
   };
@@ -164,30 +163,36 @@ const AddBtn = ({ route, navigation }) => {
       try {
         Linking.openURL(link).catch(() => {
           Alert.alert('Warning', 'Enter full Url', [
-            { text: 'OK', onPress: () => null },
+            {text: 'OK', onPress: () => null},
           ]);
         });
       } catch (error) {
         Alert.alert('Warning', 'Enter full Url', [
-          { text: 'OK', onPress: () => null },
+          {text: 'OK', onPress: () => null},
         ]);
       }
-
-    }
-
-    else if (['Custom Url', 'Google Maps', 'Spotify', "Linkedin", 'MX TakaTak', 'Roposo', 'Pinterest'].includes(title)
+    } else if (
+      [
+        'Custom Url',
+        'Google Maps',
+        'Spotify',
+        'Linkedin',
+        'MX TakaTak',
+        'Roposo',
+        'Pinterest',
+      ].includes(title)
     ) {
       let newLink = link.split('http').pop();
       if (title == 'Custom Url') newLink.toLowerCase();
       try {
         Linking.openURL('http' + newLink).catch(() => {
           Alert.alert('Warning', 'Enter full Url', [
-            { text: 'OK', onPress: () => null },
+            {text: 'OK', onPress: () => null},
           ]);
         });
       } catch (error) {
         Alert.alert('Warning', 'Enter full Url', [
-          { text: 'OK', onPress: () => null },
+          {text: 'OK', onPress: () => null},
         ]);
       }
     } else if (title == 'SnapChat') {
@@ -198,7 +203,6 @@ const AddBtn = ({ route, navigation }) => {
       Linking.openURL(`${link}`);
     } else if (title == 'Quora') {
       Linking.openURL(`${link}`);
-
     } else if (title == 'ClubHouse') {
       if (link.includes('http')) Linking.openURL(link);
       else Linking.openURL(`https://www.${title.toLowerCase()}.com/${link}`);
@@ -221,7 +225,7 @@ const AddBtn = ({ route, navigation }) => {
         title,
         link: prevLink.toString(),
         key,
-        ...(contactEmail && { contactEmail, contactPhNo }),
+        ...(contactEmail && {contactEmail, contactPhNo}),
       };
     }
 
@@ -300,10 +304,15 @@ const AddBtn = ({ route, navigation }) => {
     }
   };
   const DeleteBtn = () => {
-    return (<TouchableOpacity onPress={() => deleteHandler()} >
-      <Image style={{ width: 30, height: 30, tintColor: 'red', }} source={DeleteIcon} />
-    </TouchableOpacity>)
-  }
+    return (
+      <TouchableOpacity onPress={() => deleteHandler()}>
+        <Image
+          style={{width: 30, height: 30, tintColor: 'red'}}
+          source={DeleteIcon}
+        />
+      </TouchableOpacity>
+    );
+  };
   // to hide verify link btn and also seting link on contact buttons.
   useEffect(() => {
     hintSetter();
@@ -424,14 +433,14 @@ const AddBtn = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <HeaderComponent title1={title} deleteBtn={<DeleteBtn />} />
 
         {/* position Absolute */}
 
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={{ flex: 1, paddingHorizontal: 20 }}>
+          <View style={{flex: 1, paddingHorizontal: 20}}>
             <View style={styles.iconWrapper}>
               <Image source={icon} style={styles.icon} resizeMode="contain" />
             </View>
@@ -472,8 +481,8 @@ const AddBtn = ({ route, navigation }) => {
                   placeholderTextColor="gray"
                   style={[
                     styles.input,
-                    { flex: 1 },
-                    link && { borderBottomColor: 'black' },
+                    {flex: 1},
+                    link && {borderBottomColor: 'black'},
                   ]}
                   defaultValue={link.toString()}
                   keyboardType={countryCode ? 'numeric' : 'default'}
@@ -484,7 +493,7 @@ const AddBtn = ({ route, navigation }) => {
                 behavior="padding"
                 style={[
                   styles.inputWrapper,
-                  { flexDirection: 'column', height: 195 },
+                  {flexDirection: 'column', height: 195},
                 ]}>
                 <TextInput
                   placeholder={'Enter name'}
@@ -493,8 +502,8 @@ const AddBtn = ({ route, navigation }) => {
                   placeholderTextColor="gray"
                   style={[
                     styles.input,
-                    { flex: 1 },
-                    link && { borderBottomColor: 'black' },
+                    {flex: 1},
+                    link && {borderBottomColor: 'black'},
                   ]}
                   defaultValue={link.toString()}
                 />
@@ -505,8 +514,8 @@ const AddBtn = ({ route, navigation }) => {
                   placeholderTextColor="gray"
                   style={[
                     styles.input,
-                    { flex: 1, marginVertical: 20 },
-                    contactPhNo && { borderBottomColor: 'black' },
+                    {flex: 1, marginVertical: 20},
+                    contactPhNo && {borderBottomColor: 'black'},
                   ]}
                   defaultValue={contactPhNo}
                   keyboardType={'numeric'}
@@ -518,8 +527,8 @@ const AddBtn = ({ route, navigation }) => {
                   placeholderTextColor="gray"
                   style={[
                     styles.input,
-                    { flex: 1 },
-                    contactEmail && { borderBottomColor: 'black' },
+                    {flex: 1},
+                    contactEmail && {borderBottomColor: 'black'},
                   ]}
                   defaultValue={contactEmail.toString()}
                 />
@@ -531,7 +540,7 @@ const AddBtn = ({ route, navigation }) => {
         <View style={styles.btnContainer}>
           {isSocial && (
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: '#474747' }]}
+              style={[styles.btn, {backgroundColor: '#474747'}]}
               onPress={verificationHandler}>
               <Text style={[styles.btnText]}>Verify Link</Text>
             </TouchableOpacity>

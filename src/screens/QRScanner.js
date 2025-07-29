@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,10 +18,9 @@ const QRScanner = () => {
 
   let QRSVG = useRef();
 
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
 
   const shareHandler = async () => {
-
     // QRSVG.toDataURL(dataURL => {
 
     // });
@@ -36,9 +35,8 @@ const QRScanner = () => {
 
   // Get user details
   useEffect(async () => {
-
-    let { email } = auth().currentUser;
-    let tempUsername = ''
+    let {email} = auth().currentUser;
+    let tempUsername = '';
 
     try {
       await firestore()
@@ -48,13 +46,12 @@ const QRScanner = () => {
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            tempUsername = doc._data.username
-          })
-        }).then(() => {
-          setUsername(tempUsername)
-
+            tempUsername = doc._data.username;
+          });
         })
-
+        .then(() => {
+          setUsername(tempUsername);
+        });
     } catch (error) {
       console.log(error);
     }
